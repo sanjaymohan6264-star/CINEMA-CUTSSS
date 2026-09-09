@@ -1,0 +1,1323 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sanjay Mohan R — Video Editor</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --bg:#0D0C10;
+  --surface:#17161B;
+  --surface-2:#1E1C22;
+  --line:#2C2A31;
+  --text:#F5F3EF;
+  --muted:#8E897F;
+  --brass:#C9A66B;
+  --wine:#7A3B41;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  position:relative;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:200;
+  opacity:0.035;
+  mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection{
+  background:var(--brass);
+  color:#0D0C10;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.wrap{
+  max-width:1080px;
+  margin:0 auto;
+  padding:0 32px;
+}
+
+.serif{
+  font-family:'Fraunces',serif;
+}
+
+
+/* ================= HEADER ================= */
+
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:50;
+  background:rgba(13,12,16,0.82);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+
+nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:24px 32px;
+  max-width:1080px;
+  margin:0 auto;
+}
+
+.logo{
+  font-family:'Fraunces',serif;
+  font-style:italic;
+  font-size:21px;
+  font-weight:500;
+}
+
+.nav-links{
+  display:flex;
+  gap:40px;
+  font-size:13px;
+  color:var(--muted);
+  letter-spacing:0.3px;
+}
+
+.nav-links a:hover{
+  color:var(--text);
+}
+
+.nav-loc{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  color:var(--muted);
+  letter-spacing:1px;
+}
+
+
+/* ================= HERO ================= */
+
+.hero{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding-top:120px;
+  position:relative;
+}
+
+.hero-name{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:var(--text);
+  letter-spacing:1.5px;
+  margin-bottom:14px;
+  font-weight:500;
+}
+
+.hero h1{
+  font-family:'Fraunces',serif;
+  font-weight:500;
+  font-size:clamp(40px,6.2vw,74px);
+  line-height:1.08;
+  letter-spacing:-0.5px;
+  max-width:820px;
+}
+
+.hero h1 em{
+  font-style:italic;
+  font-weight:400;
+  color:var(--brass);
+}
+
+.hero-sub{
+  margin-top:32px;
+  max-width:460px;
+  color:var(--muted);
+  font-size:16px;
+}
+
+.hero-cta{
+  margin-top:44px;
+  display:flex;
+  gap:20px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.btn{
+  padding:15px 30px;
+  background:var(--text);
+  color:#0D0C10;
+  font-weight:600;
+  font-size:14px;
+  border-radius:2px;
+  border:none;
+  cursor:pointer;
+}
+
+.btn-outline{
+  padding:15px 30px;
+  border:1px solid var(--line);
+  border-radius:2px;
+  font-size:14px;
+  color:var(--text);
+}
+
+.btn-outline:hover{
+  border-color:var(--brass);
+  color:var(--brass);
+}
+
+
+/* ================= SHOWREEL ================= */
+
+.reel{
+  margin-top:96px;
+  aspect-ratio:16/9;
+  border-radius:4px;
+  position:relative;
+  overflow:hidden;
+  background:#0D0C10;
+  border:1px solid var(--line);
+}
+
+.reel video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.reel-label{
+  position:absolute;
+  bottom:20px;
+  left:24px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  color:var(--muted);
+  letter-spacing:1px;
+  background:rgba(13,12,16,0.6);
+  padding:6px 12px;
+  border-radius:100px;
+  pointer-events:none;
+}
+
+
+/* ================= SECTIONS ================= */
+
+.section{
+  padding:140px 0;
+  border-top:1px solid var(--line);
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  margin-bottom:64px;
+  gap:24px;
+  flex-wrap:wrap;
+}
+
+.section-head .eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  color:var(--brass);
+  letter-spacing:1px;
+  margin-bottom:14px;
+  display:block;
+}
+
+.section-head h2{
+  font-family:'Fraunces',serif;
+  font-weight:500;
+  font-size:clamp(30px,4.2vw,46px);
+  letter-spacing:-0.5px;
+}
+
+.section-count{
+  font-family:'JetBrains Mono',monospace;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.section-note{
+  color:var(--muted);
+  max-width:56ch;
+  font-size:15px;
+  margin-top:20px;
+}
+
+
+/* ================= WORK ================= */
+
+.work-list{
+  display:flex;
+  flex-direction:column;
+}
+
+.work-row{
+  display:grid;
+  grid-template-columns:220px 1fr 220px 90px;
+  gap:32px;
+  align-items:center;
+  padding:32px 0;
+  border-top:1px solid var(--line);
+}
+
+.work-row:last-child{
+  border-bottom:1px solid var(--line);
+}
+
+.work-frame{
+  aspect-ratio:16/9;
+  border-radius:3px;
+  background:linear-gradient(150deg,var(--fc1),var(--fc2));
+  position:relative;
+  overflow:hidden;
+}
+
+.work-frame::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(0deg,rgba(0,0,0,0.25),transparent 60%);
+  pointer-events:none;
+}
+
+.work-frame video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.r1{
+  --fc1:#3A2E22;
+  --fc2:#8C6A3F;
+}
+
+.r2{
+  --fc1:#22282E;
+  --fc2:#4A6A73;
+}
+
+.r3{
+  --fc1:#2E2224;
+  --fc2:#7A3B41;
+}
+
+.r4{
+  --fc1:#242018;
+  --fc2:#5C5238;
+}
+
+.work-title{
+  font-family:'Fraunces',serif;
+  font-size:21px;
+  font-weight:500;
+}
+
+.work-title span{
+  display:block;
+  color:var(--muted);
+  font-size:13px;
+  font-family:'Inter',sans-serif;
+  margin-top:6px;
+}
+
+.work-cat{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:var(--brass);
+}
+
+.work-year{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:var(--muted);
+  text-align:right;
+}
+
+
+/* ================= CAPABILITIES ================= */
+
+.cap-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+
+.cap-card{
+  background:var(--bg);
+  padding:40px 32px;
+}
+
+.cap-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:var(--brass);
+  margin-bottom:20px;
+}
+
+.cap-card h3{
+  font-family:'Fraunces',serif;
+  font-weight:500;
+  font-size:22px;
+  margin-bottom:14px;
+}
+
+.cap-card p{
+  color:var(--muted);
+  font-size:14px;
+}
+
+
+/* ================= ABOUT ================= */
+
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:64px;
+  align-items:start;
+}
+
+.pull{
+  font-family:'Fraunces',serif;
+  font-style:italic;
+  font-weight:400;
+  font-size:clamp(22px,2.6vw,30px);
+  line-height:1.4;
+  color:var(--text);
+}
+
+.about-body p{
+  color:var(--muted);
+  font-size:15px;
+  margin-bottom:18px;
+}
+
+.about-stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:36px;
+}
+
+.about-stat{
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:20px 22px;
+  background:var(--surface);
+}
+
+.about-stat .val{
+  font-family:'Fraunces',serif;
+  font-weight:500;
+  font-size:20px;
+  color:var(--brass);
+}
+
+.about-stat .lbl{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:6px;
+  font-family:'JetBrains Mono',monospace;
+  letter-spacing:0.3px;
+}
+
+.about-follow{
+  margin-top:28px;
+  padding-top:24px;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.about-follow span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.about-follow a{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:var(--brass);
+  border-bottom:1px solid var(--brass);
+  padding-bottom:2px;
+}
+
+
+/* ================= CONTACT ================= */
+
+.contact-inner{
+  text-align:left;
+}
+
+.contact-inner h2{
+  font-family:'Fraunces',serif;
+  font-weight:500;
+  font-style:italic;
+  font-size:clamp(38px,7vw,80px);
+  line-height:1.05;
+  margin-bottom:40px;
+}
+
+.contact-email{
+  font-size:19px;
+  color:var(--brass);
+  border-bottom:1px solid var(--brass);
+  padding-bottom:4px;
+  display:inline-block;
+}
+
+.contact-links{
+  margin-top:52px;
+  display:flex;
+  gap:36px;
+  color:var(--muted);
+  font-size:13px;
+  font-family:'JetBrains Mono',monospace;
+  letter-spacing:0.5px;
+  flex-wrap:wrap;
+}
+
+.contact-links a:hover{
+  color:var(--text);
+}
+
+
+/* ================= FOOTER ================= */
+
+footer{
+  padding:36px 32px;
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:12px;
+  font-family:'JetBrains Mono',monospace;
+  max-width:1080px;
+  margin:0 auto;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media(max-width:820px){
+
+  .nav-links{
+    display:none;
+  }
+
+  .work-row{
+    grid-template-columns:1fr;
+    row-gap:14px;
+  }
+
+  .work-cat,
+  .work-year{
+    text-align:left;
+  }
+
+  .cap-grid{
+    grid-template-columns:1fr;
+  }
+
+  .about-grid{
+    grid-template-columns:1fr;
+    gap:36px;
+  }
+
+  .about-stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:500px){
+
+  .wrap{
+    padding:0 20px;
+  }
+
+  nav{
+    padding:20px;
+  }
+
+  .about-stats{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(prefers-reduced-motion:reduce){
+
+  html{
+    scroll-behavior:auto;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+<nav>
+
+  <div class="logo">CINEMA CUTSSS</div>
+
+  <div class="nav-links">
+    <a href="#work">Selected Edits</a>
+    <a href="#capabilities">Capabilities</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <div class="nav-loc">SALEM, TAMIL NADU</div>
+
+</nav>
+
+</header>
+
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero wrap">
+
+  <div class="hero-name">SANJAY MOHAN R</div>
+
+  <div class="hero-name">VIDEO EDITOR — OPEN TO WORK</div>
+
+  <h1>
+    I shape raw footage into
+    <em>something worth watching.</em>
+  </h1>
+
+  <p class="hero-sub">
+    Self-taught in Premiere Pro and After Effects, based in Salem.
+    No client credits yet — just hours of practice on my own YouTube edits,
+    and a good eye for a cut.
+  </p>
+
+
+  <div class="hero-cta">
+
+    <a href="#work" class="btn">
+      Watch the Reel
+    </a>
+
+    <a
+      href="https://mail.google.com/mail/?view=cm&fs=1&to=sanjaymohan3245@gmail.com"
+      target="_blank"
+      rel="noopener"
+      class="btn-outline">
+      Get in Touch
+    </a>
+
+  </div>
+
+
+  <div class="reel">
+
+    <video controls preload="auto">
+
+      <source
+        src="videos/Vijay Ft.Karuppu_H.mp4"
+        type="video/mp4">
+
+    </video>
+
+    <div class="reel-label">
+      SHOWREEL
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ================= WORK ================= -->
+
+<section class="section" id="work">
+
+<div class="wrap">
+
+  <div class="section-head">
+
+    <div>
+
+      <span class="eyebrow">
+        PORTFOLIO
+      </span>
+
+      <h2>
+        Selected Edits
+      </h2>
+
+    </div>
+
+    <div class="section-count">
+      04
+    </div>
+
+  </div>
+
+
+  <p class="section-note">
+    No client work yet — these are the edits I've cut for myself:
+    a beat-sync piece, two love stories, and a farewell video for my college batch.
+  </p>
+
+
+  <div class="work-list">
+
+
+    <div class="work-row">
+
+      <div class="work-frame r1">
+
+        <video controls preload="auto">
+
+          <source
+            src="videos/Bloody Band x Vikram.mp4"
+            type="video/mp4">
+
+        </video>
+
+      </div>
+
+      <div class="work-title">
+
+        Vikram x Bloody Band
+
+        <span>
+          Cuts timed frame-to-beat, all solo
+        </span>
+
+      </div>
+
+      <div class="work-cat">
+        Beat Sync
+      </div>
+
+      <div class="work-year">
+        2026
+      </div>
+
+    </div>
+
+
+
+    <div class="work-row">
+
+      <div class="work-frame r2">
+
+        <video controls preload="auto">
+
+          <source
+            src="videos/Radhimaa_H.mp4"
+            type="video/mp4">
+
+        </video>
+
+      </div>
+
+      <div class="work-title">
+
+        Radhimaa
+
+        <span>
+          A quiet love story, told in cuts
+        </span>
+
+      </div>
+
+      <div class="work-cat">
+        Love Story
+      </div>
+
+      <div class="work-year">
+        2026
+      </div>
+
+    </div>
+
+
+
+    <div class="work-row">
+
+      <div class="work-frame r3">
+
+        <video controls preload="auto">
+
+          <source
+            src="videos/Chennai Love storyH.mp4"
+            type="video/mp4">
+
+        </video>
+
+      </div>
+
+      <div class="work-title">
+
+        Chennai Love Story
+
+        <span>
+          A city, a couple, a soft-cut romance
+        </span>
+
+      </div>
+
+      <div class="work-cat">
+        Love Story
+      </div>
+
+      <div class="work-year">
+        2026
+      </div>
+
+    </div>
+
+
+
+    <div class="work-row">
+
+      <div class="work-frame r4">
+
+        <video controls preload="auto">
+
+          <source
+            src="videos/Farewell 5min .mp4"
+            type="video/mp4">
+
+        </video>
+
+      </div>
+
+      <div class="work-title">
+
+        College Farewell
+
+        <span>
+          Four years, cut down to one goodbye
+        </span>
+
+      </div>
+
+      <div class="work-cat">
+        Farewell
+      </div>
+
+      <div class="work-year">
+        2026
+      </div>
+
+    </div>
+
+
+  </div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= CAPABILITIES ================= -->
+
+<section class="section" id="capabilities">
+
+<div class="wrap">
+
+  <div class="section-head">
+
+    <div>
+
+      <span class="eyebrow">
+        SKILLSET
+      </span>
+
+      <h2>
+        What I bring to a cut
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="cap-grid">
+
+
+    <div class="cap-card">
+
+      <div class="cap-num">
+        01
+      </div>
+
+      <h3>
+        Editing
+      </h3>
+
+      <p>
+        Story-first cuts in Premiere Pro — pacing, structure,
+        and trims that keep a viewer watching till the end.
+      </p>
+
+    </div>
+
+
+
+    <div class="cap-card">
+
+      <div class="cap-num">
+        02
+      </div>
+
+      <h3>
+        Beat Sync
+      </h3>
+
+      <p>
+        Beat-driven cuts in Premiere Pro — precise timing,
+        rhythm, and transitions that make every shot hit with the music.
+      </p>
+
+    </div>
+
+
+
+    <div class="cap-card">
+
+      <div class="cap-num">
+        03
+      </div>
+
+      <h3>
+        Color & Sound
+      </h3>
+
+      <p>
+        Basic color grading and sound leveling so every edit
+        leaves my hands looking and sounding finished.
+      </p>
+
+    </div>
+
+
+  </div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= ABOUT ================= -->
+
+<section class="section" id="about">
+
+<div class="wrap">
+
+  <div class="section-head">
+
+    <div>
+
+      <span class="eyebrow">
+        ABOUT
+      </span>
+
+      <h2>
+        Fresh eyes, self-taught hands
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="about-grid">
+
+
+    <div>
+
+      <div class="pull">
+        "Nobody taught me this. I broke Premiere Pro more times
+        than I can count, watched it back, and did the next cut better."
+      </div>
+
+
+      <div class="about-stats">
+
+
+        <div class="about-stat">
+
+          <div class="val">
+            Self-taught
+          </div>
+
+          <div class="lbl">
+            HOW I LEARNED
+          </div>
+
+        </div>
+
+
+
+        <div class="about-stat">
+
+          <div class="val">
+            4 edits, 0 clients
+          </div>
+
+          <div class="lbl">
+            TRACK RECORD SO FAR
+          </div>
+
+        </div>
+
+
+
+        <div class="about-stat">
+
+          <div class="val">
+            Salem, Tamil Nadu
+          </div>
+
+          <div class="lbl">
+            BASED IN
+          </div>
+
+        </div>
+
+
+
+        <div class="about-stat">
+
+          <div class="val">
+            Open now
+          </div>
+
+          <div class="lbl">
+            AVAILABILITY
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+
+    <div class="about-body">
+
+      <p>
+        I'm Sanjay Mohan R — a fresher video editor from Salem
+        who learned Premiere Pro and After Effects the only way
+        I could: by making stuff. Beat-sync edits, love stories,
+        a farewell video for my own college batch — every one shot,
+        cut, graded, and sound-designed by me, alone, on my own channel.
+      </p>
+
+
+      <p>
+        I haven't worked for a client yet. What I have is a habit
+        of rewatching my own cuts until they're right, and an eye
+        that's gotten sharper with every upload. I'm ready to put
+        that eye to work on someone else's footage.
+      </p>
+
+
+      <div class="about-follow">
+
+        <span>
+          Follow the edits —
+        </span>
+
+        <a
+          href="https://www.instagram.com/cinema_cutsss"
+          target="_blank"
+          rel="noopener">
+          Instagram
+        </a>
+
+        <a
+          href="https://youtube.com/@cinema_cutsss1"
+          target="_blank"
+          rel="noopener">
+          YouTube
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= CONTACT ================= -->
+
+<section class="section" id="contact">
+
+<div class="wrap contact-inner">
+
+  <h2>
+    Let's make<br>
+    your next edit.
+  </h2>
+
+
+  <!-- Gmail Compose -->
+
+  <a
+    class="contact-email"
+    href="https://mail.google.com/mail/?view=cm&fs=1&to=sanjaymohan3145@gmail.com"
+    target="_blank"
+    rel="noopener">
+
+    sanjaymohan3145@gmail.com
+
+  </a>
+
+
+  <div class="contact-links">
+
+    <a
+      href="https://www.instagram.com/cinema_cutsss"
+      target="_blank"
+      rel="noopener">
+
+      INSTAGRAM — @cinema_cutsss
+
+    </a>
+
+
+    <a
+      href="https://youtube.com/@cinema_cutsss1"
+      target="_blank"
+      rel="noopener">
+
+      YOUTUBE — @cinema_cutsss1
+
+    </a>
+
+  </div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+  <div>
+    © 2026 Sanjay Mohan R
+  </div>
+
+  <div>
+    SALEM, TAMIL NADU
+  </div>
+
+</footer>
+
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+/*
+  Only one video plays at a time.
+  Starting one video automatically pauses the others.
+*/
+
+const allVideos =
+  document.querySelectorAll(
+    '.work-frame video, .reel video'
+  );
+
+
+allVideos.forEach(video => {
+
+  video.addEventListener('play', () => {
+
+    allVideos.forEach(other => {
+
+      if(other !== video){
+        other.pause();
+      }
+
+    });
+
+  });
+
+});
+
+
+
+/*
+  Grab a frame from each video as its thumbnail.
+  Uses a separate hidden loader video so the
+  visible video element is never seeked.
+*/
+
+allVideos.forEach(video => {
+
+  const sourceEl =
+    video.querySelector('source');
+
+  if(!sourceEl) return;
+
+
+  const loader =
+    document.createElement('video');
+
+
+  loader.src =
+    sourceEl.src;
+
+  loader.preload =
+    'auto';
+
+  loader.muted =
+    true;
+
+
+  loader.style.cssText =
+    'position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;';
+
+
+  document.body.appendChild(loader);
+
+
+  loader.addEventListener(
+    'loadedmetadata',
+    () => {
+
+      loader.currentTime =
+        loader.duration > 15
+          ? 15
+          : loader.duration / 2;
+
+    },
+    {once:true}
+  );
+
+
+  loader.addEventListener(
+    'seeked',
+    () => {
+
+      try{
+
+        const canvas =
+          document.createElement('canvas');
+
+
+        canvas.width =
+          loader.videoWidth;
+
+        canvas.height =
+          loader.videoHeight;
+
+
+        canvas
+          .getContext('2d')
+          .drawImage(
+            loader,
+            0,
+            0,
+            canvas.width,
+            canvas.height
+          );
+
+
+        video.poster =
+          canvas.toDataURL(
+            'image/jpeg',
+            0.85
+          );
+
+      }
+
+      catch(e){
+
+        /*
+          Safe fallback if thumbnail generation
+          is blocked by file:// or browser security.
+        */
+
+      }
+
+
+      loader.remove();
+
+    },
+    {once:true}
+  );
+
+});
+
+</script>
+
+
+</body>
+</html>
+```
