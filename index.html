@@ -1622,7 +1622,7 @@ footer{
       Watch the Reel
     </a>
 
-<a href="mailto:sanjaymohan3145@gmail.com" class="btn-outline">
+<a id="emailBtn" class="btn-outline">
     Get in Touch
 </a>
 
@@ -2454,7 +2454,21 @@ allVideos.forEach(video => {
 
 </script>
 
+<script>
+const emailBtn = document.getElementById("emailBtn");
 
+const email = "sanjaymohan3145@gmail.com";
+
+const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+if (isMobile) {
+    emailBtn.href = "mailto:" + email;
+} else {
+    emailBtn.href =
+        "https://mail.google.com/mail/?view=cm&fs=1&to=" +
+        encodeURIComponent(email);
+}
+</script>
 </body>
 
 </html>
